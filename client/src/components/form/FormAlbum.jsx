@@ -150,7 +150,9 @@ export default withRouter(function FormAlbum({
       <select
         className="input"
         id="label"
-        defaultValue={artist}>
+        name="label"
+        defaultValue="Choose a label">
+          <option disabled >Choose a label</option>
         {labels && labels.map((label, i) => (<option key={i} value={label._id}>{label.name}</option> ))}
       </select>
 
