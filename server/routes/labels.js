@@ -13,7 +13,7 @@ router.get("/labels", (req, res, next) => {
     .find()
     .then(dbRes => res.json({ labels: dbRes }))
     .catch(next);
-});
+}); 
 
 router.get("/labels/:id", (req, res, next) => {
   labelModel

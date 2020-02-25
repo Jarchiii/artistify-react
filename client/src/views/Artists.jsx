@@ -9,13 +9,16 @@ import "../styles/card.css";
 
 export default class Artists extends Component {
   state = {
-    artists: []
+     artists: [],
   };
 
   componentDidMount() {
     apiHandler.get("/artists").then(apiRes => {
       this.setState({ artists: apiRes.data.artists });
     });
+    apiHandler.get("/styles").then(apiRes => {
+      this.setState({styles : apiRes.data.styles})
+    })
   }
 
   render() {

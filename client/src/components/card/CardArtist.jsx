@@ -6,5 +6,15 @@ import IconFav from "../icon/IconFavorite";
 import "./../../styles/icon-color.css";
 
 export default function CardArtist({ data }) {
-  return <div>@todo</div>;
+
+
+
+
+
+  return <div>
+     <div  style={{backgroundColor:`${data.style.color}` }}>_</div>
+    {data.description}
+    {data.name}
+    <IconFav/>
+  </div>;
 }
