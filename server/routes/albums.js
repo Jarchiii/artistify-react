@@ -53,19 +53,35 @@ router.get("/albums", (req, res, next) => {
 });
 
 router.get("/albums/:id", (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+  albumModel
+  .findOne({ _id: req.params.id})
+  .then(album => res.json(album))
+  .catch(next);
 });
 
 router.post("/albums", uploader.single("cover"), (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+  const newAlbum = req.body;
+  albumModel
+  .create(newAlbum)
+  .then(()=> res.json(newAlbum))
+  .catch(next)
 });
 
 router.patch("/albums/:id", uploader.single("cover"), (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+ const updatedAlbum = req.body
+ albumModel
+ .findByIdAndUpdate(req.params.id, updatedAlbum)
+ .then(dbRes => {
+   res.status(200).json(dbRes);
+ })
+ .catch(next);
 });
 
 router.delete("/albums/:id", (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+  albumModel
+  .findByIdAndDelete(req.params.id)
+  .then(dbRes => res.json(dbRes))
+  .catch(next);
 });
 
 module.exports = router;

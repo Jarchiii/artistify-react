@@ -47,23 +47,40 @@ router.get("/artists", async (req, res, next) => {
 
 
 router.get("/artists/:id", (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+  artistModel
+  .findOne({_id : req.params.id} )
+  .then(artist => res.json(artist))
+  .catch(next)
 });
 
 router.get("/filtered-artists", (req, res, next) => {
   res.status(200).json({ msg: "@todo" })
 });
 
-router.post("/artists", (req, res) => {
-  res.status(200).json({ msg: "@todo" })
+router.post("/artists", (req, res, next) => {
+  const newArtist = req.body
+  console.log(req.body)
+  artistModel
+  .create(newArtist)
+  .then((res)=>res.status(200).json(newArtist))
+  .catch(next)
 });
 
 router.patch("/artists/:id", async (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+  const updatedArtist = req.body
+  artistModel
+  .findByIdAndUpdate(req.params.id, updatedArtist)
+  .then(dbRes => {
+    res.status(200).json(dbRes)
+  })
+  .catch(next)
 });
 
 router.delete("/artists/:id", (req, res, next) => {
-  res.status(200).json({ msg: "@todo" })
+  artistModel
+  .findByIdAndDelete(req.params.id)
+  .then(dbRes => res.json(dbRes))
+  .catch(next)
 });
 
 module.exports = router;
