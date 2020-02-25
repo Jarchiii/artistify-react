@@ -19,39 +19,50 @@ export default withRouter(function FormAlbum({
   match
 }) {
   const [
-    { title, releaseDate, artist, artists, cover, description, label, rates },
-    setState
+    { title, releaseDate, artist, cover, description, label, rates },
+    setAlbum
   ] = useState({
     title: "",
     relaseDate: "",
-    artists: [],
     artist: "",
     cover: "",
     description: "",
     label: "",
   });
 
+  const [labels, setLabels] = useState([]);
+  const [artists, setArtists] = useState([]);
+
   useEffect(() => {
     const initFormData = async () => {
       const apiRes = await APIHandler.get(`/albums/${_id}`);
       delete apiRes.data._id;
-      setState({ ...apiRes.data });
+      setAlbum({ ...apiRes.data });
     };
 
     if (mode === "edit") initFormData();
 
   }, [mode, _id]);
 
+
   useEffect(() => {
-      APIHandler.get("/artists")
-      .then(dbRes => {
-        setState({ ...dbRes.data, artists: dbRes.data.artists});
-      })
+    APIHandler.get("/labels")
+    .then(dbRes => {
+      setLabels(dbRes.data.labels)
+    } )
   }, []);
+
+  useEffect(() => {
+    APIHandler.get("/artists")
+    .then(dbRes => {    
+      setArtists(dbRes.data.artists);
+    })
+}, []);
+
 
   const handleChange = e => {
     e.persist();
-    setState(prevValues => ({
+    setAlbum(prevValues => ({
       ...prevValues,
       [e.target.id]: e.target.value
     }));
@@ -80,9 +91,7 @@ export default withRouter(function FormAlbum({
       console.log("coucou")
     }
   };
-
-
-
+  
   return (
     <form className="form" onSubmit={handleSubmit} onChange={handleChange}>
       <label className="label" htmlFor="title">
@@ -101,7 +110,7 @@ export default withRouter(function FormAlbum({
       <input
         className="input"
         id="releaseDate"
-        type="text"
+        type="date"
         defaultValue={releaseDate}
       />
 
@@ -138,12 +147,12 @@ export default withRouter(function FormAlbum({
       <label className="label" htmlFor="label">
         Label
       </label>
-      <input
+      <select
         className="input"
         id="label"
-        type="text"
-        defaultValue={label}
-      />
+        defaultValue={artist}>
+        {labels && labels.map((label, i) => (<option key={i} value={label._id}>{label.name}</option> ))}
+      </select>
 
       <button className="btn">ok</button>
     </form>

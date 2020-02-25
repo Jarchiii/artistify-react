@@ -49,7 +49,7 @@ router.get("/artists", async (req, res, next) => {
 router.get("/artists/:id", (req, res, next) => {
   artistModel
   .findOne({_id : req.params.id} )
-  .then(artist => res.json(artist))
+  .then(artist => res.status(200).json(artist))
   .catch(next)
 });
 
@@ -62,7 +62,7 @@ router.post("/artists", (req, res, next) => {
   console.log(req.body)
   artistModel
   .create(newArtist)
-  .then((res)=>res.status(200).json(newArtist))
+  .then(()=> res.json(newArtist))
   .catch(next)
 });
 

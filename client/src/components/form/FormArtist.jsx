@@ -55,7 +55,7 @@ export default withRouter(function FormArtists({
 
     const newArstist = {
     "name": name,
-    "style": style,
+    "style": style ,
     "isBand" : isBand,
     "description": description
   }
@@ -108,7 +108,8 @@ export default withRouter(function FormArtists({
         className="input"
         id="style"
         name="style"
-        defaultValue={style}>
+        defaultValue="Choose a style">
+          <option disabled >Choose a style</option>
         {styles && styles.map((style, i) => (<option key={i} value={style._id}>{style.name}</option> ))}
       </select>
 
